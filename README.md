@@ -224,13 +224,12 @@ To create a model that predicts a player’s market value based on their perform
     
         return merged_df
     ```
-    </details>
+ </details>
 
 ## 2. Process Data
 
 - Renamed column names and dropped meaningless columns + Changed string type into numeric type
-    - View Code
-        
+<details>
         ```python
         def clean_dataframe(df):
             df = df.dropna(subset = ["Value (€)"])
@@ -289,7 +288,7 @@ To create a model that predicts a player’s market value based on their perform
             
             return df
         ```
-        
+</details>
 - Performed one-hot encoding for Position, and scaled the data using StandardScaler() + Dropped columns for Nationality and Year Born.
     - Scaled the data since most columns were skewed to the left → Finding a way to address data imbalance would be better than scaling (ex. Oversampling)
     - View Code

@@ -229,64 +229,64 @@ To create a model that predicts a player’s market value based on their perform
 
 - Renamed column names and dropped meaningless columns + Changed string type into numeric type
   <details> <summary>View Code</summary>
-        ```python
-        def clean_dataframe(df):
-            df = df.dropna(subset = ["Value (€)"])
-            df = df.drop(columns = ["Name_Clean", 
-                                    "Unnamed: 0_y", 
-                                    "Name_y", 
-                                    "Unnamed: 0_x", 
-                                    "Unnamed: 0_level_0_Rk", 
-                                    "Unnamed: 24_level_0_Matches",
-                                    "Unnamed: 0"
-                                   ])
-            df = df.rename(columns={
-                'Unnamed: 3_level_0_Pos': 'Position', 
-                'Unnamed: 5_level_0_Age': 'Age',
-                'Unnamed: 6_level_0_Born': 'Born',
-                'Unnamed: 2_level_0_Nation': 'Nationality',
-                'Playing Time_MP': 'Match Played',
-                'Name_x': 'Name',
-                'Playing Time_Starts': 'Match Started',
-                'Playing Time_Min': 'Minutes Played',
-                'Playing Time_90s': 'Minutes Played / 90',
-                'Performance_Gls': 'Goals',
-                'Performance_Ast': 'Assists',
-                'Performance_G+A': 'Goals + Assists',
-                'Performance_G-PK': 'Non-Penality Goals',
-                'Performance_PK': 'Penalty Kick Goals',
-                'Performance_PKatt': 'Penalty Kick Attempted',
-                'Performance_CrdY': 'Yellow Cards',
-                'Performance_CrdR': 'Red Cards',
-                'Per 90 Minutes_Gls': 'Goals Per 90 Minutes',
-                'Per 90 Minutes_Ast': 'Assists Per 90 Minutes',
-                'Per 90 Minutes_G+A': 'G+A Per 90 Minutes',
-                'Per 90 Minutes_G-PK': 'Non-Penality Goals Per 90 Minutes',
-                'Per 90 Minutes_G+A-PK': 'Non-Penalty Goals + Assists/90',
-                'Value (€)': 'Value',
-                # '': '',
-                # '': '',
-                # '': '',
-                # '': '',
-                # '': '',
-                # '': '',
-            })
+    ```python
+    def clean_dataframe(df):
+        df = df.dropna(subset = ["Value (€)"])
+        df = df.drop(columns = ["Name_Clean", 
+                                "Unnamed: 0_y", 
+                                "Name_y", 
+                                "Unnamed: 0_x", 
+                                "Unnamed: 0_level_0_Rk", 
+                                "Unnamed: 24_level_0_Matches",
+                                "Unnamed: 0"
+                               ])
+        df = df.rename(columns={
+            'Unnamed: 3_level_0_Pos': 'Position', 
+            'Unnamed: 5_level_0_Age': 'Age',
+            'Unnamed: 6_level_0_Born': 'Born',
+            'Unnamed: 2_level_0_Nation': 'Nationality',
+            'Playing Time_MP': 'Match Played',
+            'Name_x': 'Name',
+            'Playing Time_Starts': 'Match Started',
+            'Playing Time_Min': 'Minutes Played',
+            'Playing Time_90s': 'Minutes Played / 90',
+            'Performance_Gls': 'Goals',
+            'Performance_Ast': 'Assists',
+            'Performance_G+A': 'Goals + Assists',
+            'Performance_G-PK': 'Non-Penality Goals',
+            'Performance_PK': 'Penalty Kick Goals',
+            'Performance_PKatt': 'Penalty Kick Attempted',
+            'Performance_CrdY': 'Yellow Cards',
+            'Performance_CrdR': 'Red Cards',
+            'Per 90 Minutes_Gls': 'Goals Per 90 Minutes',
+            'Per 90 Minutes_Ast': 'Assists Per 90 Minutes',
+            'Per 90 Minutes_G+A': 'G+A Per 90 Minutes',
+            'Per 90 Minutes_G-PK': 'Non-Penality Goals Per 90 Minutes',
+            'Per 90 Minutes_G+A-PK': 'Non-Penalty Goals + Assists/90',
+            'Value (€)': 'Value',
+            # '': '',
+            # '': '',
+            # '': '',
+            # '': '',
+            # '': '',
+            # '': '',
+        })
+    
+        intger_column_list = ["Age", "Born", "Match Played", "Match Started", "Minutes Played", "Goals", "Assists", "Goals + Assists", 
+                      "Non-Penality Goals", "Penalty Kick Goals", "Penalty Kick Attempted", "Yellow Cards", "Red Cards"]
         
-            intger_column_list = ["Age", "Born", "Match Played", "Match Started", "Minutes Played", "Goals", "Assists", "Goals + Assists", 
-                          "Non-Penality Goals", "Penalty Kick Goals", "Penalty Kick Attempted", "Yellow Cards", "Red Cards"]
-            
-            float_column_list = ["Minutes Played / 90", "Goals Per 90 Minutes", "Assists Per 90 Minutes", 
-                          "G+A Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"]
+        float_column_list = ["Minutes Played / 90", "Goals Per 90 Minutes", "Assists Per 90 Minutes", 
+                      "G+A Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"]
+    
+        numeric_column_list = []
+        numeric_column_list.extend(intger_column_list)
+        numeric_column_list.extend(float_column_list)
+    
+        for column in numeric_column_list:
+            df[column] = pd.to_numeric(df[column], errors='coerce')
         
-            numeric_column_list = []
-            numeric_column_list.extend(intger_column_list)
-            numeric_column_list.extend(float_column_list)
-        
-            for column in numeric_column_list:
-                df[column] = pd.to_numeric(df[column], errors='coerce')
-            
-            return df
-        ```
+        return df
+    ```
   </details>
 - Performed one-hot encoding for Position, and scaled the data using StandardScaler() + Dropped columns for Nationality and Year Born.
     - Scaled the data since most columns were skewed to the left → Finding a way to address data imbalance would be better than scaling (ex. Oversampling)

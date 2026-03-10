@@ -1,0 +1,4 @@
+.DS_Store
+.ipynb_checkpoints/
+.scouter_venv/
+.virtual_documents/

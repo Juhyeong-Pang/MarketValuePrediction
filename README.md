@@ -1,16 +1,16 @@
-# **Project Overview**
+# Project Overview
 
 Last Modified: 03/06/2026
 
-### **Motivation**
+### Motivation
 
 We wanted to practice data collection, preprocessing, and analysis. As footballs (soccer) are an economically significant industry, it generates vast amounts of numerical data. Therefore, we thought leveraging football data will provide an experience where we can leverage skills required to handle complex, real-world datasets.
 
-### **Objective**
+### Objective
 
 To create a model that predicts a player’s market value based on their performance stats and generate insights on which features have the greatest influence.
 
-# **The Approach and Process**
+# The Approach and Process
 
 ## 1. Collect Data
 
@@ -26,7 +26,7 @@ To create a model that predicts a player’s market value based on their perform
     
     
     ```python
-    **# Collect Performance Stats**
+    # Collect Performance Stats
     def click_link(driver, link, wait_sec=3):
         driver.execute_script("arguments[0].scrollIntoView();", link)
         time.sleep(wait_sec)
@@ -110,7 +110,7 @@ To create a model that predicts a player’s market value based on their perform
     ```
     
     ```python
-    **# Collect Market Value**
+    # Collect Market Value
     def get_response(url):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36'
@@ -200,7 +200,7 @@ To create a model that predicts a player’s market value based on their perform
     ```
     
     ```python
-    **# Concatenate Two Datasets**
+    # Concatenate Two Datasets
     def normalize_name(name):
         if not isinstance(name, str): return ""
         name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore').decode("utf-8")
@@ -228,7 +228,7 @@ To create a model that predicts a player’s market value based on their perform
 ## 2. Process Data
 
 - Renamed column names and dropped meaningless columns + Changed string type into numeric type
-    - **View Code**
+    - View Code
         
         ```python
         def clean_dataframe(df):
@@ -291,7 +291,7 @@ To create a model that predicts a player’s market value based on their perform
         
 - Performed one-hot encoding for Position, and scaled the data using StandardScaler() + Dropped columns for Nationality and Year Born.
     - Scaled the data since most columns were skewed to the left → Finding a way to address data imbalance would be better than scaling (ex. Oversampling)
-    - **View Code**
+    - View Code
         
         ```python
         def preprocess_dataframe(df):
@@ -314,7 +314,7 @@ To create a model that predicts a player’s market value based on their perform
         ```
         
 - Changed the Squad into the squad’s final rank after the season.
-    - **View Code**
+    - View Code
         
         ```python
         squad_rank_map = {
@@ -378,7 +378,7 @@ To create a model that predicts a player’s market value based on their perform
         
 
 ## 3. Analyze Data
-- **Correlation**:
+- Correlation:
     - Players that played more matched have higher market value
     - Players with high Attack Point (Goals, Assists) have higher market value
     - Players in a Squad that ended the season with higher rank have higher market value
@@ -389,21 +389,21 @@ To create a model that predicts a player’s market value based on their perform
 <img width="1728" height="1652" alt="image" src="https://github.com/user-attachments/assets/90af46dc-60cd-43fc-af5b-c1009d56e1ef" />
 
 
-- **Models**:
-    - Out of 8 models that we tried, **Random Forest** showed the best R squared score.
+- Models:
+    - Out of 8 models that we tried, Random Forest showed the best R squared score.
  
 <img width="1728" height="1142" alt="image" src="https://github.com/user-attachments/assets/d6c4757d-dfe2-4fef-9709-a7463733746f" />
 
 
-# **Current Status and Future Recommendations**
+# Current Status and Future Recommendations
 
-### **Current Status**
+### Current Status
 
 - Collected dataset covering four seasons, featuring performance statistics and market values for approximately 1,700 players per season.
 - Processed the dataset and performed simple feature engineering.
 - Provided insights on which aspect of the performance stats are strongly related to the Market Value.
 
-### **Future Recommendations**
+### Future Recommendations
 
 - Perform more feature engineering and obtain model with higher accuracy.
 - Research another way to handle data imbalance rather than scaling.

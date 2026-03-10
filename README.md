@@ -314,68 +314,68 @@ To create a model that predicts a player’s market value based on their perform
         ```
         </details>
 - Changed the Squad into the squad’s final rank after the season.
-      <details> <summary>View Code</summary>
+  <details> <summary>View Code</summary>
         
-        ```python
-        squad_rank_map = {
-            # [21-22, 22-23, 23-24, 24-25]
-            'Ajaccio': [22, 18, 22, 22], 'Alavés': [20, 22, 10, 12], 'Almería': [22, 17, 19, 22], 'Angers': [14, 20, 22, 18],
-            'Arminia': [17, 22, 22, 22], 'Arsenal': [5, 2, 2, 2], 'Aston Villa': [14, 7, 4, 5], 'Atalanta': [8, 5, 4, 3],
-            'Athletic Club': [8, 8, 5, 6], 'Atlético Madrid': [3, 3, 4, 3], 'Augsburg': [14, 15, 11, 13], 'Auxerre': [22, 17, 22, 15],
-            'Barcelona': [2, 1, 2, 1], 'Bayern Munich': [1, 1, 3, 1], 'Bochum': [13, 14, 16, 17], 'Bologna': [13, 9, 5, 8],
-            'Bordeaux': [20, 22, 22, 22],'Bournemouth': [22, 15, 12, 11],'Brentford': [13, 9, 16, 14],'Brest': [11, 14, 3, 9],
-            'Brighton': [9, 6, 11, 10],'Burnley': [18, 22, 19, 22],'Cagliari': [18, 22, 16, 16],'Celta Vigo': [11, 13, 14, 11],
-            'Chelsea': [3, 12, 6, 4],'Clermont Foot': [17, 8, 18, 22],'Cremonese': [22, 19, 22, 22],'Crystal Palace': [12, 11, 10, 12],
-            'Cádiz': [17, 14, 18, 22],'Darmstadt 98': [22, 22, 18, 22],'Dortmund': [2, 2, 5, 4],'Eintracht Frankfurt': [11, 7, 6, 6],
-            'Elche': [13, 20, 22, 22],'Empoli': [14, 14, 17, 14],'Espanyol': [14, 19, 22, 17],'Everton': [16, 17, 15, 15],
-            'Fiorentina': [7, 8, 8, 7], 'Freiburg': [6, 5, 10, 8], 'Frosinone': [22, 22, 18, 22],
-            'Fulham': [22, 10, 13, 12], 'Genoa': [19, 22, 11, 13], 'Getafe': [15, 15, 12, 14], 'Girona': [22, 10, 3, 7],
-            'Gladbach': [10, 10, 14, 11], 'Granada': [18, 22, 20, 22], 'Greuther Fürth': [18, 22, 22, 22], 'Heidenheim': [22, 22, 8, 12],
-            'Hellas Verona': [9, 18, 13, 15], 'Hertha BSC': [16, 18, 22, 22], 'Hoffenheim': [9, 12, 7, 10], 'Inter': [2, 3, 1, 2],
-            'Juventus': [4, 7, 3, 3], 'Köln': [7, 11, 17, 22], 'Las Palmas': [22, 22, 16, 17], 'Lazio': [5, 2, 7, 6],
-            'Le Havre': [22, 22, 15, 16], 'Lecce': [22, 16, 14, 15], 'Leeds United': [17, 19, 22, 22], 'Leicester City': [8, 18, 22, 16],
-            'Lens': [7, 2, 7, 8], 'Levante': [19, 22, 22, 22], 'Leverkusen': [3, 6, 1, 3], 'Lille': [10, 5, 4, 5],
-            'Liverpool': [2, 5, 3, 1], 'Lorient': [16, 10, 19, 22], 'Luton Town': [22, 22, 18, 22], 'Lyon': [8, 7, 6, 6],
-            'Mainz 05': [8, 9, 13, 12], 'Mallorca': [16, 9, 15, 13], 'Manchester City': [1, 1, 1, 2], 'Manchester Utd': [6, 3, 8, 7],
-            'Marseille': [2, 3, 8, 5], 'Metz': [19, 22, 18, 22], 'Milan': [1, 4, 2, 4], 'Monaco': [3, 6, 2, 2],
-            'Montpellier': [13, 12, 12, 14], 'Monza': [22, 11, 12, 15], 'Nantes': [9, 16, 14, 16], 'Napoli': [3, 1, 10, 4],
-            'Newcastle United': [11, 4, 7, 6], 'Nice': [5, 9, 5, 6], 'Norwich City': [20, 22, 22, 22], 'Nottingham Forest': [22, 16, 17, 14],
-            'Osasuna': [10, 7, 11, 10], 'Paris Saint-Germain': [1, 1, 1, 1], 'RB Leipzig': [4, 3, 4, 4], 'Rayo Vallecano': [12, 11, 17, 15],
-            'Real Betis': [5, 6, 7, 7], 'Real Madrid': [1, 2, 1, 2], 'Real Sociedad': [6, 4, 6, 8], 'Reims': [12, 11, 9, 10],
-            'Rennes': [4, 4, 10, 9], 'Roma': [6, 6, 6, 7], 'Saint-Étienne': [18, 22, 22, 16], 'Salernitana': [17, 15, 20, 22],
-            'Sampdoria': [15, 20, 22, 22], 'Sassuolo': [11, 13, 19, 22], 'Schalke 04': [22, 17, 22, 22], 'Sevilla': [4, 12, 14, 12],
-            'Sheffield United': [22, 22, 20, 22], 'Southampton': [15, 20, 22, 19], 'Spezia': [16, 18, 22, 22],'Strasbourg': [6, 15, 13, 13],
-            'Stuttgart': [15, 16, 2, 7],'Torino': [10, 10, 9, 11], 'Tottenham Hotspur': [4, 8, 5, 5],'Toulouse': [22, 13, 11, 12],
-            'Troyes': [15, 19, 22, 22],'Udinese': [12, 12, 15, 13], 'Union Berlin': [5, 4, 15, 11],'Valencia': [9, 14, 9, 13],
-            'Valladolid': [22, 18, 22, 19],'Venezia': [20, 22, 22, 20], 'Villarreal': [7, 5, 8, 6],'Watford': [19, 22, 22, 22],
-            'Werder Bremen': [22, 13, 9, 10],'West Ham United': [7, 14, 9, 11], 'Wolfsburg': [12, 8, 12, 12],'Wolves': [10, 13, 14, 15],
-        }
-        
-        def get_squad_rank_map(year, full_map=squad_rank_map):
-            index = year - 2021
-            if (index < 0 or index >= len(full_map)):
-                print("No Data For That Year")
-                return
-        
-            temp_dict = {}
-            for squad in full_map:
-                temp_dict[squad] = full_map[squad][index]
-                
-            return temp_dict
-        
-        def apply_squad_rank(df, year):
-            df = df.copy()
-            rank_map_for_year = get_squad_rank_map(year)
+    ```python
+    squad_rank_map = {
+        # [21-22, 22-23, 23-24, 24-25]
+        'Ajaccio': [22, 18, 22, 22], 'Alavés': [20, 22, 10, 12], 'Almería': [22, 17, 19, 22], 'Angers': [14, 20, 22, 18],
+        'Arminia': [17, 22, 22, 22], 'Arsenal': [5, 2, 2, 2], 'Aston Villa': [14, 7, 4, 5], 'Atalanta': [8, 5, 4, 3],
+        'Athletic Club': [8, 8, 5, 6], 'Atlético Madrid': [3, 3, 4, 3], 'Augsburg': [14, 15, 11, 13], 'Auxerre': [22, 17, 22, 15],
+        'Barcelona': [2, 1, 2, 1], 'Bayern Munich': [1, 1, 3, 1], 'Bochum': [13, 14, 16, 17], 'Bologna': [13, 9, 5, 8],
+        'Bordeaux': [20, 22, 22, 22],'Bournemouth': [22, 15, 12, 11],'Brentford': [13, 9, 16, 14],'Brest': [11, 14, 3, 9],
+        'Brighton': [9, 6, 11, 10],'Burnley': [18, 22, 19, 22],'Cagliari': [18, 22, 16, 16],'Celta Vigo': [11, 13, 14, 11],
+        'Chelsea': [3, 12, 6, 4],'Clermont Foot': [17, 8, 18, 22],'Cremonese': [22, 19, 22, 22],'Crystal Palace': [12, 11, 10, 12],
+        'Cádiz': [17, 14, 18, 22],'Darmstadt 98': [22, 22, 18, 22],'Dortmund': [2, 2, 5, 4],'Eintracht Frankfurt': [11, 7, 6, 6],
+        'Elche': [13, 20, 22, 22],'Empoli': [14, 14, 17, 14],'Espanyol': [14, 19, 22, 17],'Everton': [16, 17, 15, 15],
+        'Fiorentina': [7, 8, 8, 7], 'Freiburg': [6, 5, 10, 8], 'Frosinone': [22, 22, 18, 22],
+        'Fulham': [22, 10, 13, 12], 'Genoa': [19, 22, 11, 13], 'Getafe': [15, 15, 12, 14], 'Girona': [22, 10, 3, 7],
+        'Gladbach': [10, 10, 14, 11], 'Granada': [18, 22, 20, 22], 'Greuther Fürth': [18, 22, 22, 22], 'Heidenheim': [22, 22, 8, 12],
+        'Hellas Verona': [9, 18, 13, 15], 'Hertha BSC': [16, 18, 22, 22], 'Hoffenheim': [9, 12, 7, 10], 'Inter': [2, 3, 1, 2],
+        'Juventus': [4, 7, 3, 3], 'Köln': [7, 11, 17, 22], 'Las Palmas': [22, 22, 16, 17], 'Lazio': [5, 2, 7, 6],
+        'Le Havre': [22, 22, 15, 16], 'Lecce': [22, 16, 14, 15], 'Leeds United': [17, 19, 22, 22], 'Leicester City': [8, 18, 22, 16],
+        'Lens': [7, 2, 7, 8], 'Levante': [19, 22, 22, 22], 'Leverkusen': [3, 6, 1, 3], 'Lille': [10, 5, 4, 5],
+        'Liverpool': [2, 5, 3, 1], 'Lorient': [16, 10, 19, 22], 'Luton Town': [22, 22, 18, 22], 'Lyon': [8, 7, 6, 6],
+        'Mainz 05': [8, 9, 13, 12], 'Mallorca': [16, 9, 15, 13], 'Manchester City': [1, 1, 1, 2], 'Manchester Utd': [6, 3, 8, 7],
+        'Marseille': [2, 3, 8, 5], 'Metz': [19, 22, 18, 22], 'Milan': [1, 4, 2, 4], 'Monaco': [3, 6, 2, 2],
+        'Montpellier': [13, 12, 12, 14], 'Monza': [22, 11, 12, 15], 'Nantes': [9, 16, 14, 16], 'Napoli': [3, 1, 10, 4],
+        'Newcastle United': [11, 4, 7, 6], 'Nice': [5, 9, 5, 6], 'Norwich City': [20, 22, 22, 22], 'Nottingham Forest': [22, 16, 17, 14],
+        'Osasuna': [10, 7, 11, 10], 'Paris Saint-Germain': [1, 1, 1, 1], 'RB Leipzig': [4, 3, 4, 4], 'Rayo Vallecano': [12, 11, 17, 15],
+        'Real Betis': [5, 6, 7, 7], 'Real Madrid': [1, 2, 1, 2], 'Real Sociedad': [6, 4, 6, 8], 'Reims': [12, 11, 9, 10],
+        'Rennes': [4, 4, 10, 9], 'Roma': [6, 6, 6, 7], 'Saint-Étienne': [18, 22, 22, 16], 'Salernitana': [17, 15, 20, 22],
+        'Sampdoria': [15, 20, 22, 22], 'Sassuolo': [11, 13, 19, 22], 'Schalke 04': [22, 17, 22, 22], 'Sevilla': [4, 12, 14, 12],
+        'Sheffield United': [22, 22, 20, 22], 'Southampton': [15, 20, 22, 19], 'Spezia': [16, 18, 22, 22],'Strasbourg': [6, 15, 13, 13],
+        'Stuttgart': [15, 16, 2, 7],'Torino': [10, 10, 9, 11], 'Tottenham Hotspur': [4, 8, 5, 5],'Toulouse': [22, 13, 11, 12],
+        'Troyes': [15, 19, 22, 22],'Udinese': [12, 12, 15, 13], 'Union Berlin': [5, 4, 15, 11],'Valencia': [9, 14, 9, 13],
+        'Valladolid': [22, 18, 22, 19],'Venezia': [20, 22, 22, 20], 'Villarreal': [7, 5, 8, 6],'Watford': [19, 22, 22, 22],
+        'Werder Bremen': [22, 13, 9, 10],'West Ham United': [7, 14, 9, 11], 'Wolfsburg': [12, 8, 12, 12],'Wolves': [10, 13, 14, 15],
+    }
+    
+    def get_squad_rank_map(year, full_map=squad_rank_map):
+        index = year - 2021
+        if (index < 0 or index >= len(full_map)):
+            print("No Data For That Year")
+            return
+    
+        temp_dict = {}
+        for squad in full_map:
+            temp_dict[squad] = full_map[squad][index]
             
-            if rank_map_for_year is None:
-                return df
+        return temp_dict
+    
+    def apply_squad_rank(df, year):
+        df = df.copy()
+        rank_map_for_year = get_squad_rank_map(year)
         
-            df['Squad_Rank'] = df['Unnamed: 4_level_0_Squad'].map(rank_map_for_year).apply(lambda x: 21 - x if pd.notnull(x) else 0)
-            df = df.drop(columns=['Unnamed: 4_level_0_Squad'])
-            
+        if rank_map_for_year is None:
             return df
-        ```
-      </details>
+    
+        df['Squad_Rank'] = df['Unnamed: 4_level_0_Squad'].map(rank_map_for_year).apply(lambda x: 21 - x if pd.notnull(x) else 0)
+        df = df.drop(columns=['Unnamed: 4_level_0_Squad'])
+        
+        return df
+    ```
+  </details>
 
 ## 3. Analyze Data
 - Correlation:

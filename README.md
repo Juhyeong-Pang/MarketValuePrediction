@@ -23,6 +23,7 @@ To create a model that predicts a player’s market value based on their perform
     - Used Request and BeautifulSoup to extract data from the sites.
 - Concatenated Both Dataset based on player’s name
 - View Code
+<details>
     
     
     ```python
@@ -108,7 +109,7 @@ To create a model that predicts a player’s market value based on their perform
     
         return final_df
     ```
-    
+
     ```python
     # Collect Market Value
     def get_response(url):
@@ -223,7 +224,7 @@ To create a model that predicts a player’s market value based on their perform
     
         return merged_df
     ```
-    
+    </details>
 
 ## 2. Process Data
 

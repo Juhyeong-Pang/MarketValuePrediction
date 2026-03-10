@@ -22,7 +22,7 @@ To create a model that predicts a player’s market value based on their perform
     - Created an algorithm that finds links that contain market values for players in the Big 5 League in Europe
     - Used Request and BeautifulSoup to extract data from the sites.
 - Concatenated Both Dataset based on player’s name
-- <details> <summary>View Code</summary>
+  <details> <summary>View Code</summary>
     
     
     ```python
@@ -228,7 +228,7 @@ To create a model that predicts a player’s market value based on their perform
 ## 2. Process Data
 
 - Renamed column names and dropped meaningless columns + Changed string type into numeric type
-<details>
+  <details> <summary>View Code</summary>
         ```python
         def clean_dataframe(df):
             df = df.dropna(subset = ["Value (€)"])
@@ -287,10 +287,10 @@ To create a model that predicts a player’s market value based on their perform
             
             return df
         ```
-</details>
+  </details>
 - Performed one-hot encoding for Position, and scaled the data using StandardScaler() + Dropped columns for Nationality and Year Born.
     - Scaled the data since most columns were skewed to the left → Finding a way to address data imbalance would be better than scaling (ex. Oversampling)
-    - View Code
+      <details> <summary>View Code</summary>
         
         ```python
         def preprocess_dataframe(df):
@@ -311,9 +311,9 @@ To create a model that predicts a player’s market value based on their perform
             df = df[[c for c in df.columns if c != "Value"] + ["Value"]]
             return df, scaler
         ```
-        
+        </details>
 - Changed the Squad into the squad’s final rank after the season.
-    - View Code
+      <details> <summary>View Code</summary>
         
         ```python
         squad_rank_map = {
@@ -374,7 +374,7 @@ To create a model that predicts a player’s market value based on their perform
             
             return df
         ```
-        
+        </details>
 
 ## 3. Analyze Data
 - Correlation:

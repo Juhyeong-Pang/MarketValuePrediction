@@ -22,8 +22,7 @@ To create a model that predicts a player’s market value based on their perform
     - Created an algorithm that finds links that contain market values for players in the Big 5 League in Europe
     - Used Request and BeautifulSoup to extract data from the sites.
 - Concatenated Both Dataset based on player’s name
-- View Code
-<details>
+- <details> <summary>View Code</summary>
     
     
     ```python

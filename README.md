@@ -374,7 +374,7 @@ To create a model that predicts a player’s market value based on their perform
             
             return df
         ```
-        </details>
+      </details>
 
 ## 3. Analyze Data
 - Correlation:

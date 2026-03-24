@@ -62,6 +62,10 @@ To create a model that predicts a player’s market value based on their perform
 
 ### Column Distribution
 
+#### **Skewness & Kurtosis**:
+
+<img src="assets/graphs/skewness.png" width=1000>
+
 #### **Histogram**:
 
 <img src="assets/graphs/distribution.png">
@@ -73,3 +77,32 @@ To create a model that predicts a player’s market value based on their perform
 ### Outlier Ratio
 
   <img src="assets/graphs/outlierRatio.png" width=900>
+
+### Analysis
+
+| Column Name                          | Action Required | Description |
+| :----------------------------------- | :-------------: | ----------- |
+| **Age**                              |        -        |             |
+| **Match Played**                     |                 |             |
+| **Match Started**                    |                 |             |
+| **Minutes Played**                   |                 |             |
+| **Minutes Played / 90**              |                 |             |
+| **Goals**                            |                 |             |
+| **Assists**                          |                 |             |
+| **Goals + Assists**                  |                 |             |
+| **Non-Penalty Goals**                |                 |             |
+| **Penalty Kick Goals**               |                 |             |
+| **Penalty Kick Attempted**           |                 |             |
+| **Yellow Cards**                     |                 |             |
+| **Red Cards**                        |                 |             |
+| **Goals Per 90 Minutes**             |                 |             |
+| **Assists Per 90 Minutes**           |                 |             |
+| **G+A Per 90 Minutes**               |                 |             |
+| **Non-Penalty Goals Per 90 Minutes** |                 |             |
+| **Non-Penalty Goals + Assists/90**   |                 |             |
+| **FW**                               |        -        |             |
+| **MF**                               |        -        |             |
+| **DF**                               |        -        |             |
+| **GK**                               |        -        |             |
+| **Squad_Rank**                       |        -        |             |
+| **Value**                            |                 |             |

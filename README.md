@@ -64,7 +64,7 @@ To create a model that predicts a player’s market value based on their perform
 
 <img src="assets/graphs/positionDistribution.png" width=500>
 
-### Column Distribution
+### Features Distribution
 
 #### **Skewness & Kurtosis**:
 
@@ -89,6 +89,14 @@ To create a model that predicts a player’s market value based on their perform
 > **Key Insight:** **Red Cards** (11.70%) and **Non-Penalty Goals** (10.15%) show the highest outlier ratios. One plausble reason behind this is that only a small minority of players is having great influence on the dataset.
 
   <img src="assets/graphs/outlierRatio.png" width=900>
+
+### Correlation Heatmap
+
+> **Key Insight:** Attack stats such as **Goals** (0.42), **Goals + Assists** (0.46), and **Non-Penalty Goals** (0.43) show a high positive correlation to the market value, while **Age** (-0.24) show a negative correlation, implying that a player's market value decreases as he gets older.
+
+> **Future Consideration:** There are several features such as **Penalty Kick Goals** and **Penalty Kick Attempted** that show high correlation **(0.97)**. This implies that they are storing nearly identical informations and therefore could be a better option to drop one of them.
+
+<img src="assets/graphs/corrHeatmap.png" width=900>
 
 ### Final Analysis
 

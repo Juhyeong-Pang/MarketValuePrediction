@@ -81,7 +81,7 @@ To create a model that predicts a player’s market value based on their perform
 ### Analysis
 
 | Column Name                          |       Action Required       |                                          Description                                           |
-| :----------------------------------- | :-------------------------: | :--------------------------------------------------------------------------------------------: |
+| :----------------------------------- | :-------------------------: | :-------------------------------------------------------------------------------------------- |
 | **Age**                              |              -              |                     Normal distribution, no transformation seems required                      |
 | **Match Played**                     |         **Binning**         | Bimodal distribution; Categorize players based on which cluster they belong to (2~3 category)  |
 | **Match Started**                    |     **Min-Max Scaling**     |                           High variance with no significant outlier                            |

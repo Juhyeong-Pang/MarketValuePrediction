@@ -52,11 +52,15 @@ To create a model that predicts a player’s market value based on their perform
 
 ### Cardinality
 
+> **Key Insight:** The dataset shows a wide range of cardinality. **Minutes Played** and **Value** have high variability
+
 <img src="assets/graphs/cardinality.png" width=900>
 
 ---
 
 ### Position Distribution
+
+> **Key Insight:** This distribution reveals that Goal Keepers are not well represented by the current dataset. This presents a need to handle data imbalance by either oversampling or making a separate model for each position.
 
 <img src="assets/graphs/positionDistribution.png" width=500>
 
@@ -64,45 +68,59 @@ To create a model that predicts a player’s market value based on their perform
 
 #### **Skewness & Kurtosis**:
 
+> **Key Insight:** Metrics like **Assists Per 90** (27.41) and **Non-Penalty Goals + Assists/90** (10.18) are extremely skewed to the right. This indicates that only a small group of players (top players among FW/MF) produces high output. They should be handled with **logarithmic transformations** to stabilize variance.
+
 <img src="assets/graphs/skewness.png" width=1000>
 
 #### **Histogram**:
+
+> **Key Insight:** Most performance histograms seem to be extremely skewed to the right. Beside **Age** and **Squad_Rank**, which follow a more balanced distribution, most features are composed of sparse data.
 
 <img src="assets/graphs/distribution.png">
 
 #### **Boxplot**:
 
+> **Key Insight:** The boxplots highlight significant outliers in **Market Value** and **Attacking Stats**. These represent "Superstar" players. These outliers can not just be excluded, so the model should be robust enough to learn certain characteristics from them without heavily being influenced.
+
 <img src="assets/graphs/boxplot.png">
 
 ### Outlier Ratio
 
+> **Key Insight:** **Red Cards** (11.70%) and **Non-Penalty Goals** (10.15%) show the highest outlier ratios. One plausble reason behind this is that only a small minority of players is having great influence on the dataset.
+
   <img src="assets/graphs/outlierRatio.png" width=900>
 
-### Analysis
+### Final Analysis
 
-| Column Name                          |       Action Required       |                                          Description                                           |
-| :----------------------------------- | :-------------------------: | :--------------------------------------------------------------------------------------------: |
-| **Age**                              |              -              |                     Normal distribution, no transformation seems required                      |
+| Column Name                          |       Action Required       | Description                                                                                    |
+| :----------------------------------- | :-------------------------: | :--------------------------------------------------------------------------------------------- |
+| **Age**                              |              -              | Normal distribution, no transformation seems required                                          |
 | **Match Played**                     |         **Binning**         | Bimodal distribution; Categorize players based on which cluster they belong to (2~3 category)  |
-| **Match Started**                    |     **Min-Max Scaling**     |                           High variance with no significant outlier                            |
-| **Minutes Played**                   |     **Min-Max Scaling**     |                           High variance with no significant outlier                            |
-| **Minutes Played / 90**              | **Min-Max Scaling or Drop** |                    High variance with no significant outlier, but redudant                     |
-| **Goals**                            |      **Log Transform**      |                                 Extremely skewed to the right                                  |
-| **Assists**                          |      **Log Transform**      |                                 Extremely skewed to the right                                  |
-| **Goals + Assists**                  |          **Drop**           |                                Redundant with Goals and Assists                                |
-| **Non-Penalty Goals**                |      **Log Transform**      |                                 Extremely skewed to the right                                  |
-| **Penalty Kick Goals**               |      **Binarization**       |       Data mostly sparse (0). Maybe can convert it into binary category "Penalty taker"        |
-| **Penalty Kick Attempted**           |          **Drop**           |                               Redundant with Penalty Kick Goals                                |
-| **Yellow Cards**                     |          **Drop**           |     Players with high 'Match Played' value seems to have high # of Yellow cards; Redundant     |
-| **Red Cards**                        |          **Drop**           |      Players with high 'Match Played' value seems to have high # of Red cards; Redundant       |
+| **Match Started**                    |     **Min-Max Scaling**     | High variance with no significant outlier                                                      |
+| **Minutes Played**                   |     **Min-Max Scaling**     | High variance with no significant outlier                                                      |
+| **Minutes Played / 90**              | **Min-Max Scaling or Drop** | High variance with no significant outlier, but redudant                                        |
+| **Goals**                            |      **Log Transform**      | Extremely skewed to the right                                                                  |
+| **Assists**                          |      **Log Transform**      | Extremely skewed to the right                                                                  |
+| **Goals + Assists**                  |          **Drop**           | Redundant with Goals and Assists                                                               |
+| **Non-Penalty Goals**                |      **Log Transform**      | Extremely skewed to the right                                                                  |
+| **Penalty Kick Goals**               |      **Binarization**       | Data mostly sparse (0). Maybe can convert it into binary category "Penalty taker"              |
+| **Penalty Kick Attempted**           |          **Drop**           | Redundant with Penalty Kick Goals                                                              |
+| **Yellow Cards**                     |          **Drop**           | Players with high 'Match Played' value seems to have high # of Yellow cards; Redundant         |
+| **Red Cards**                        |          **Drop**           | Players with high 'Match Played' value seems to have high # of Red cards; Redundant            |
 | **Goals Per 90 Minutes**             |      **Log Transform**      | _**Extremely**_ skewed to the right; Since mostly sparse, better to add 1: $f(x) = \ln(x + 1)$ |
 | **Assists Per 90 Minutes**           |      **Log Transform**      | _**Extremely**_ skewed to the right; Since mostly sparse, better to add 1: $f(x) = \ln(x + 1)$ |
-| **G+A Per 90 Minutes**               |          **Drop**           |                        Redundant with Goals and Assists per 90 Minutes                         |
+| **G+A Per 90 Minutes**               |          **Drop**           | Redundant with Goals and Assists per 90 Minutes                                                |
 | **Non-Penalty Goals Per 90 Minutes** |      **Log Transform**      | _**Extremely**_ skewed to the right; Since mostly sparse, better to add 1: $f(x) = \ln(x + 1)$ |
 | **Non-Penalty Goals + Assists/90**   |      **Log Transform**      | _**Extremely**_ skewed to the right; Since mostly sparse, better to add 1: $f(x) = \ln(x + 1)$ |
-| **FW**                               |              -              |                                       Already Binarized                                        |
-| **MF**                               |              -              |                                       Already Binarized                                        |
-| **DF**                               |              -              |                                       Already Binarized                                        |
-| **GK**                               |              -              |                                       Already Binarized                                        |
-| **Squad_Rank**                       |              -              |                                       Already Binarized                                        |
-| **Value**                            |      **Log Transform**      |                                 Extremely skewed to the right                                  |
+| **FW**                               |              -              | Already Binarized                                                                              |
+| **MF**                               |              -              | Already Binarized                                                                              |
+| **DF**                               |              -              | Already Binarized                                                                              |
+| **GK**                               |              -              | Already Binarized                                                                              |
+| **Squad_Rank**                       |              -              | Already Binarized                                                                              |
+| **Value**                            |      **Log Transform**      | Extremely skewed to the right                                                                  |
+
+---
+
+## Processing Data
+
+Currently Working On It...

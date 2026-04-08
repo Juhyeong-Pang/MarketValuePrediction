@@ -4,7 +4,7 @@ from typing import Any
 
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, OrdinalEncoder
 
 
 FOLDER_PATH = os.path.join("..", "data")
@@ -336,6 +336,9 @@ def feature_engineering(input_df: pd.DataFrame, scale=True, scalers: dict[Any] =
         right = False,
     )
     df = df.drop(columns=["Penalty Kick Goals"])
+
+    encoder = OrdinalEncoder(dtype=int)
+    df[["Experience Level", "Penalty Kicker"]] = encoder.fit_transform(df[["Experience Level", "Penalty Kicker"]])
 
     # Log Transform (f(x) = ln(x + 1)) "Goals", "Assists", "Non-Penalty Goals", "Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penalty Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"
     target_cols = ["Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90", "Goals", "Assists", "Non-Penality Goals"]

@@ -19,6 +19,8 @@ DISCRETE_COLUMN_LIST = [
     "Penalty Kick Attempted",
     "Yellow Cards",
     "Red Cards",
+    "Experience Level", 
+    "Penalty Kicker"
 ]
 
 
@@ -63,7 +65,7 @@ def plot_distribution(
     is_numeric = pd.api.types.is_numeric_dtype(data)
 
     if is_numeric:
-        sns.histplot(data, kde=True, color=color, discrete=discrete, ax=ax)
+        sns.histplot(data, kde=False, color=color, discrete=discrete, ax=ax)
         ax.set_title(f"{column_name} Distribution", fontsize=12)
         ax.set_xlabel("Value")
         ax.set_ylabel("Count")

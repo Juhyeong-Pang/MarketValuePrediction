@@ -341,7 +341,7 @@ def feature_engineering(input_df: pd.DataFrame, scale=True, scalers: dict[Any] =
     df[["Experience Level", "Penalty Kicker"]] = encoder.fit_transform(df[["Experience Level", "Penalty Kicker"]])
 
     # Log Transform (f(x) = ln(x + 1)) "Goals", "Assists", "Non-Penalty Goals", "Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penalty Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"
-    target_cols = ["Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90", "Goals", "Assists", "Non-Penality Goals"]
+    target_cols = ["Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90", "Goals", "Assists", "Non-Penality Goals", "Value"]
     df[target_cols] = np.log1p(df[target_cols])
 
     # Min-Max Scale "Match Started", "Minutes Played"

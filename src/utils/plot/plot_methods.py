@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+
 DISCRETE_COLUMN_LIST = [
     "Age",
     "Born",
@@ -58,50 +59,45 @@ def plot_distribution(
     if ax is None:
         fig, ax = plt.subplots(figsize=figsize)
 
-    sns.histplot(df[column_name], kde=True, color=color, discrete=discrete, ax=ax)
-    ax.set_title(f"{column_name} distribution", fontsize=12)
-    ax.set_xlabel("Value")
-    ax.set_ylabel("Count")
-
     data = df[column_name].dropna()
-    d_min = data.min()
-    d_mean = data.mean()
-    d_max = data.max()
+    is_numeric = pd.api.types.is_numeric_dtype(data)
 
-    ax.axvline(
-        d_min,
-        color="red",
-        linestyle="--",
-        linewidth=1,
-        label=f"Min: {d_min:.1f}",
-        alpha=0,
-    )
-    ax.axvline(
-        d_mean,
-        color="black",
-        linestyle="-",
-        linewidth=2,
-        label=f"Mean: {d_mean:.1f}",
-        alpha=0.3,
-    )
-    ax.axvline(
-        d_max,
-        color="blue",
-        linestyle="--",
-        linewidth=1,
-        label=f"Max: {d_max:.1f}",
-        alpha=0,
-    )
+    if is_numeric:
+        sns.histplot(data, kde=True, color=color, discrete=discrete, ax=ax)
+        ax.set_title(f"{column_name} Distribution", fontsize=12)
+        ax.set_xlabel("Value")
+        ax.set_ylabel("Count")
 
-    ax.legend()
+        d_min = data.min()
+        d_mean = data.mean()
+        d_max = data.max()
 
-    if show_count:
-        ax.bar_label(ax.containers[0], label_type="edge", padding=3, fontsize=6)
+        ax.axvline(d_min, color="red", linestyle="--", linewidth=1, 
+                   label=f"Min: {d_min:.2f}", alpha=0.5)
+        ax.axvline(d_mean, color="black", linestyle="-", linewidth=2, 
+                   label=f"Mean: {d_mean:.2f}", alpha=0.3)
+        ax.axvline(d_max, color="blue", linestyle="--", linewidth=1, 
+                   label=f"Max: {d_max:.2f}", alpha=0.5)
+        
+        ax.legend()
 
-    heights = [p.get_height() for p in ax.patches]
+    else:
+        sns.countplot(x=data, color=color, ax=ax, order=data.value_counts().index)
+        ax.set_title(f"{column_name} Frequency", fontsize=12)
+        ax.set_xlabel("Category")
+        ax.set_ylabel("Frequency")
+        
+        plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
+
+    if not is_numeric or (show_count and len(ax.containers) > 0):
+        for container in ax.containers:
+            ax.bar_label(container, fmt='%.0f', padding=3, 
+                         fontsize=10, fontweight='bold', color='black')
+
+    heights = [p.get_height() for p in ax.patches if p.get_height() > 0]
     if heights:
         max_height = max(heights)
-        ax.set_ylim(0, max_height * 1.1)
+        ax.set_ylim(0, max_height * 1.2)
 
 
 def plot_entire_distribution(df, color="rebeccapurple"):

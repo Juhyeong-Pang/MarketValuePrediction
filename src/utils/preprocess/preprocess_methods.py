@@ -1,10 +1,14 @@
 import os
 import re
+from typing import Any
 
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+import numpy as np
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-FOLDER_PATH = "../data"
+
+FOLDER_PATH = os.path.join("..", "data")
+SCALER_DICT_PATH = os.path.join(FOLDER_PATH, "scalers.joblib")
 
 SQUAD_RANK_MAP = {
     # [21-22, 22-23, 23-24, 24-25]
@@ -288,3 +292,68 @@ def end_to_end_load_data(filename):
     df = end_to_end_process_data(df, year)
 
     return df
+
+def feature_engineering(input_df: pd.DataFrame, scale=True, scalers: dict[Any] = None) -> tuple[pd.DataFrame, dict[Any]]:
+    """
+    1. Filters FW
+    2. Drop Unused Columns
+    3. Bin "Match Played"
+    4. Binarize "Penalty Kick Goals"
+    5. Log Transform "Goals", "Assists", "Non-Penalty Goals", "Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penalty Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"
+    6. Min-Max Scale "Match Started", "Minutes Played"
+
+    Parameters:
+        input_df : dataframe loaded with train.csv or test.csv
+        scale : Default to True. If True, returns dictionary containing the scaler with key 'mm_scaler'
+        scalers : Default to None. Uses the provided scaler to when scaling. 
+
+    Returns:
+        1. feature engineered dataframe
+        2. Dictionary containing scaler used
+    """
+    # Filter only FW & MF
+    df = input_df[(input_df["FW"] == 1) | (input_df["MF"] == 1)].copy().reset_index(drop=True)
+    df = df.drop(columns=["DF", "GK"])
+
+    # Drop columns
+    df = df.drop(columns=["Goals + Assists", "Penalty Kick Attempted", "Yellow Cards", "Red Cards", "G+A Per 90 Minutes", "Minutes Played / 90"])
+
+    # Bin "Match Played"
+    df["Experience Level"] = pd.cut(
+        df["Match Played"], 
+        bins=[0, 10, 20, 30, np.inf], 
+        labels=["Level 1", "Level 2", "Level 3", "Level 4"],
+        include_lowest=True,
+    )
+    df = df.drop(columns=["Match Played"])
+
+    # Binarize "Penalty Kick Goals"
+    df["Penalty Kicker"] = pd.cut(
+        df["Penalty Kick Goals"], 
+        bins=[0, 1, np.inf], 
+        labels=["Not Penalty taker", "Penalty taker"],
+        include_lowest=True,
+        right = False,
+    )
+    df = df.drop(columns=["Penalty Kick Goals"])
+
+    # Log Transform (f(x) = ln(x + 1)) "Goals", "Assists", "Non-Penalty Goals", "Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penalty Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90"
+    target_cols = ["Goals Per 90 Minutes", "Assists Per 90 Minutes", "Non-Penality Goals Per 90 Minutes", "Non-Penalty Goals + Assists/90", "Goals", "Assists", "Non-Penality Goals"]
+    df[target_cols] = np.log1p(df[target_cols])
+
+    # Min-Max Scale "Match Started", "Minutes Played"
+    if scale:
+        if scalers and ('mm_scaler' in scalers):
+            df[["Match Started", "Minutes Played"]] = scalers['mm_scaler'].transform(df[["Match Started", "Minutes Played"]])
+            return df, scalers
+        else:
+            scalers = {}
+
+            mm_scaler = MinMaxScaler()
+            df[["Match Started", "Minutes Played"]] = mm_scaler.fit_transform(df[["Match Started", "Minutes Played"]])
+
+            scalers['mm_scaler'] = mm_scaler
+
+            return df, scalers
+
+    return df, scalers

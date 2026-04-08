@@ -111,7 +111,7 @@ To create a model that predicts a player’s market value based on their perform
 | **Assists**                          |      **Log Transform**      |                                 Extremely skewed to the right                                  |
 | **Goals + Assists**                  |          **Drop**           |                                Redundant with Goals and Assists                                |
 | **Non-Penalty Goals**                |      **Log Transform**      |                                 Extremely skewed to the right                                  |
-| **Penalty Kick Goals**               |      **Binarization**       |       Data mostly sparse (0). Maybe can convert it into binary category "Penalty taker"        |
+| **Penalty Kick Goals**               |         **Binning**         |       Data mostly sparse (0). Maybe can convert it into binary category "Penalty taker"        |
 | **Penalty Kick Attempted**           |          **Drop**           |                               Redundant with Penalty Kick Goals                                |
 | **Yellow Cards**                     |          **Drop**           |     Players with high 'Match Played' value seems to have high # of Yellow cards; Redundant     |
 | **Red Cards**                        |          **Drop**           |      Players with high 'Match Played' value seems to have high # of Red cards; Redundant       |

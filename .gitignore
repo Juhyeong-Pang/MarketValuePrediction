@@ -2,3 +2,4 @@
 .ipynb_checkpoints/
 .scouter_venv/
 .virtual_documents/
+Makefile
